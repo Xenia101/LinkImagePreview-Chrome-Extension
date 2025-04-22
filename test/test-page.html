@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지 URL 미리보기 테스트</title>
+  <link rel="stylesheet" href="css/tailwind.min.css">
+  <link rel="stylesheet" href="css/flowbite.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      min-width: 800px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .note {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-left: 4px solid #ddd;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>이미지 URL 미리보기 테스트 페이지</h1>
+  <p>이 페이지는 이미지 URL 미리보기 확장 프로그램을 테스트하기 위한 페이지입니다. 아래의 다양한 형식의 이미지 URL에 마우스를 올려보세요.</p>
+  
+  <div class="note">
+    <strong>참고:</strong> 미리보기가 표시되지 않는다면, 확장 프로그램이 제대로 설치되었는지 확인하세요.
+  </div>
+  
+  <div class="test-section">
+    <h2>1. 간단한 이미지 URL</h2>
+    <p>여기 샘플 이미지 URL이 있습니다: https://placehold.co/200x300.jpg</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>2. 다양한 이미지 형식</h2>
+    <ul>
+      <li>PNG 이미지: https://placehold.co/200x300.png</li>
+      <li>GIF 이미지: https://placehold.co/200x300.gif</li>
+      <li>JPEG 이미지: https://placehold.co/200x300.jpeg</li>
+    </ul>
+  </div>
+  
+  <div class="test-section">
+    <h2>3. 문장 내 이미지 URL</h2>
+    <p>이 문장에는 https://placehold.co/200x300.jpg?text=Sample+Image 이미지 URL이 포함되어 있습니다. 확장 프로그램이 이를 감지하여 미리보기를 표시해야 합니다.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>4. 쿼리 파라미터가 있는 URL</h2>
+    <p>https://placehold.co/200x300.jpg?text=HelloWorld&font=roboto 이와 같이 쿼리 파라미터가 있는 URL도 지원합니다.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>5. 컬러 지정 이미지</h2>
+    <p>https://placehold.co/200x300/FF0000/FFFFFF.jpg 이와 같이 빨간 배경에 흰색 텍스트로 된 이미지도 지원합니다.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>6. Picsum 랜덤 이미지</h2>
+    <p>https://picsum.photos/200/300.jpg 피쿰의 랜덤 이미지 URL도 지원합니다.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>7. 동적으로 추가된 콘텐츠</h2>
+    <div id="dynamic-content">
+      <button onclick="addDynamicContent()">동적 콘텐츠 추가</button>
+    </div>
+  </div>
+  
+  <script>
+    function addDynamicContent() {
+      const container = document.getElementById('dynamic-content');
+      const paragraph = document.createElement('p');
+      paragraph.textContent = '이것은 동적으로 추가된 이미지 URL입니다: https://placehold.co/300x200.jpg?text=Dynamic';
+      container.appendChild(paragraph);
+    }
+  </script>
+  <script src="js/flowbite.min.js"></script>
+</body>
+</html> 

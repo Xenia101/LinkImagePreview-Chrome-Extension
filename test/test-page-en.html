@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image URL Preview Test</title>
+  <link rel="stylesheet" href="css/tailwind.min.css">
+  <link rel="stylesheet" href="css/flowbite.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      min-width: 800px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .note {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-left: 4px solid #ddd;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image URL Preview Test Page</h1>
+  <p>This page is designed to test the image URL preview extension. Hover your mouse over the various image URLs below.</p>
+  
+  <div class="note">
+    <strong>Note:</strong> If previews don't appear, check if the extension is properly installed.
+  </div>
+  
+  <div class="test-section">
+    <h2>1. Simple Image URL</h2>
+    <p>Here's a sample image URL: https://placehold.co/200x300.jpg</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>2. Various Image Formats</h2>
+    <ul>
+      <li>PNG image: https://placehold.co/200x300.png</li>
+      <li>GIF image: https://placehold.co/200x300.gif</li>
+      <li>JPEG image: https://placehold.co/200x300.jpeg</li>
+    </ul>
+  </div>
+  
+  <div class="test-section">
+    <h2>3. Image URL Within Text</h2>
+    <p>This sentence contains an image URL: https://placehold.co/200x300.jpg?text=Sample+Image. The extension should detect this and display a preview.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>4. URL With Query Parameters</h2>
+    <p>https://placehold.co/200x300.jpg?text=HelloWorld&font=roboto URLs with query parameters like this are also supported.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>5. Color-Specified Image</h2>
+    <p>https://placehold.co/200x300/FF0000/FFFFFF.jpg Images with red background and white text like this are also supported.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>6. Picsum Random Images</h2>
+    <p>https://picsum.photos/200/300.jpg Picsum's random image URLs are also supported.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>7. Dynamically Added Content</h2>
+    <div id="dynamic-content">
+      <button onclick="addDynamicContent()">Add Dynamic Content</button>
+    </div>
+  </div>
+  
+  <script>
+    function addDynamicContent() {
+      const container = document.getElementById('dynamic-content');
+      const paragraph = document.createElement('p');
+      paragraph.textContent = 'This is a dynamically added image URL: https://placehold.co/300x200.jpg?text=Dynamic';
+      container.appendChild(paragraph);
+    }
+  </script>
+  <script src="js/flowbite.min.js"></script>
+</body>
+</html> 

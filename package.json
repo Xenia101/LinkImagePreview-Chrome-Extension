@@ -1,0 +1,13 @@
+{
+  "name": "linked-image-preview",
+  "version": "1.0.0",
+  "description": "Chrome extension for previewing image links",
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "prettier": "^2.8.8"
+  },
+  "scripts": {
+    "lint": "eslint js/*.js",
+    "format": "prettier --write js/*.js"
+  }
+}

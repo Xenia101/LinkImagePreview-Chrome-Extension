@@ -1,0 +1,46 @@
+{
+  "appName": {
+    "message": "이미지링크 프리뷰",
+    "description": "확장 프로그램의 이름"
+  },
+  "appDesc": {
+    "message": "이미지 URL 미리보기와 사이즈 표시",
+    "description": "확장 프로그램의 설명"
+  },
+  "popupTitle": {
+    "message": "이미지링크 프리뷰 설정",
+    "description": "팝업 창의 제목"
+  },
+  "enableExtension": {
+    "message": "확장 프로그램 활성화",
+    "description": "확장 프로그램 활성화 옵션"
+  },
+  "disableExtension": {
+    "message": "확장 프로그램 비활성화",
+    "description": "확장 프로그램 비활성화 옵션"
+  },
+  "status": {
+    "message": "현재 상태:",
+    "description": "현재 확장 프로그램 상태"
+  },
+  "statusEnabled": {
+    "message": "활성화됨",
+    "description": "활성화 상태 텍스트"
+  },
+  "statusDisabled": {
+    "message": "비활성화됨",
+    "description": "비활성화 상태 텍스트"
+  },
+  "languageSelect": {
+    "message": "언어 선택",
+    "description": "언어 선택 라벨"
+  },
+  "languageKo": {
+    "message": "한국어",
+    "description": "한국어 언어 옵션"
+  },
+  "languageEn": {
+    "message": "English",
+    "description": "영어 언어 옵션"
+  }
+} 

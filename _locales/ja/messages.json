@@ -1,0 +1,62 @@
+{
+  "appName": {
+    "message": "イメージリンクプレビュー",
+    "description": "拡張機能の名前"
+  },
+  "appDesc": {
+    "message": "画像URLプレビューとサイズ表示",
+    "description": "拡張機能の説明"
+  },
+  "popupTitle": {
+    "message": "イメージリンクプレビュー設定",
+    "description": "ポップアップのタイトル"
+  },
+  "enableExtension": {
+    "message": "拡張機能を有効にする",
+    "description": "拡張機能を有効にするオプション"
+  },
+  "disableExtension": {
+    "message": "拡張機能を無効にする",
+    "description": "拡張機能を無効にするオプション"
+  },
+  "status": {
+    "message": "現在の状態:",
+    "description": "現在の拡張機能の状態"
+  },
+  "statusEnabled": {
+    "message": "有効",
+    "description": "有効状態のテキスト"
+  },
+  "statusDisabled": {
+    "message": "無効",
+    "description": "無効状態のテキスト"
+  },
+  "languageSelect": {
+    "message": "言語選択",
+    "description": "言語選択ラベル"
+  },
+  "languageKo": {
+    "message": "韓国語",
+    "description": "韓国語オプション"
+  },
+  "languageEn": {
+    "message": "英語",
+    "description": "英語オプション"
+  },
+  "languageJa": {
+    "message": "日本語",
+    "description": "日本語オプション"
+  },
+  "languageZh_CN": {
+    "message": "中国語",
+    "description": "中国語オプション"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "description": "読み込み中テキスト"
+  },
+  "loadError": {
+    "message": "画像を読み込めません",
+    "description": "画像読み込みエラーテキスト"
+  }
+} 

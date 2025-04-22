@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지링크 프리뷰 설정</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/i18n.js"></script>
+</head>
+<body class="lip-body">
+  <div class="lip-title" data-i18n="popupTitle"></div>
+  
+  <div class="lip-toggle-container">
+    <span class="lip-toggle-label" data-i18n="enableExtension"></span>
+    <label class="lip-toggle-switch">
+      <input type="checkbox" id="toggleExtension" checked>
+      <span class="lip-slider"></span>
+    </label>
+  </div>
+  
+  <div class="lip-status" id="statusMessage">
+    <span data-i18n="status"></span> <span id="statusText"></span>
+  </div>
+  
+  <div class="language-select">
+    <button id="langKo" class="language-btn active" data-i18n="languageKo">한국어</button>
+    <button id="langEn" class="language-btn" data-i18n="languageEn">English</button>
+    <button id="langJa" class="language-btn" data-i18n="languageJa">日本語</button>
+    <button id="langZh_CN" class="language-btn" data-i18n="languageZh_CN">中文</button>
+  </div>
+  
+  <div class="lip-footer" data-i18n="appDesc"></div>
+
+  <footer class="lip-copyright">
+    <p>Image Link Preview Extension v1.1</p>
+    <p>© 2025 - Powered by <a href="https://github.com/Xenia101" target="_blank" class="lip-link">Junnie</a></p>
+  </footer>
+
+  <script src="js/popup.js"></script>
+</body>
+</html> 

@@ -1,0 +1,46 @@
+{
+  "appName": {
+    "message": "Image Link Preview",
+    "description": "The name of the extension"
+  },
+  "appDesc": {
+    "message": "Image URL preview and size display",
+    "description": "The description of the extension"
+  },
+  "popupTitle": {
+    "message": "Image Link Preview Settings",
+    "description": "Title of the popup"
+  },
+  "enableExtension": {
+    "message": "Enable Extension",
+    "description": "Option to enable extension"
+  },
+  "disableExtension": {
+    "message": "Disable Extension",
+    "description": "Option to disable extension"
+  },
+  "status": {
+    "message": "Current status:",
+    "description": "Current extension status"
+  },
+  "statusEnabled": {
+    "message": "Enabled",
+    "description": "Enabled status text"
+  },
+  "statusDisabled": {
+    "message": "Disabled",
+    "description": "Disabled status text"
+  },
+  "languageSelect": {
+    "message": "Select Language",
+    "description": "Language selection label"
+  },
+  "languageKo": {
+    "message": "Korean",
+    "description": "Korean language option"
+  },
+  "languageEn": {
+    "message": "English",
+    "description": "English language option"
+  }
+} 

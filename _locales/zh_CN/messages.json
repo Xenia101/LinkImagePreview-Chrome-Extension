@@ -1,0 +1,62 @@
+{
+  "appName": {
+    "message": "图像链接预览",
+    "description": "扩展程序名称"
+  },
+  "appDesc": {
+    "message": "图像URL预览和尺寸显示",
+    "description": "扩展程序描述"
+  },
+  "popupTitle": {
+    "message": "图像链接预览设置",
+    "description": "弹出窗口标题"
+  },
+  "enableExtension": {
+    "message": "启用扩展程序",
+    "description": "启用扩展程序选项"
+  },
+  "disableExtension": {
+    "message": "禁用扩展程序",
+    "description": "禁用扩展程序选项"
+  },
+  "status": {
+    "message": "当前状态:",
+    "description": "当前扩展程序状态"
+  },
+  "statusEnabled": {
+    "message": "已启用",
+    "description": "启用状态文本"
+  },
+  "statusDisabled": {
+    "message": "已禁用",
+    "description": "禁用状态文本"
+  },
+  "languageSelect": {
+    "message": "选择语言",
+    "description": "语言选择标签"
+  },
+  "languageKo": {
+    "message": "韩语",
+    "description": "韩语选项"
+  },
+  "languageEn": {
+    "message": "英语",
+    "description": "英语选项"
+  },
+  "languageJa": {
+    "message": "日语",
+    "description": "日语选项"
+  },
+  "languageZh_CN": {
+    "message": "中文",
+    "description": "中文选项"
+  },
+  "loading": {
+    "message": "加载中...",
+    "description": "加载中文本"
+  },
+  "loadError": {
+    "message": "无法加载图像",
+    "description": "图像加载错误文本"
+  }
+} 
