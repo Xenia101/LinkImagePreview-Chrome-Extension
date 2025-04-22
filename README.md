@@ -1,49 +1,49 @@
 <img src="./images/Image-Link-Preview-banner.png">
 
 <div align="center" style="margin-bottom:12px">
-  <a href="README.md">한국어</a> | 
-  <a href="README_en.md">English</a> | 
+  <a href="README.md">English</a> | 
+  <a href="README_kr.md">한국어</a> | 
   <a href="README_jp.md">日本語</a> | 
   <a href="README_ch.md">中文</a>
 </div>
 
 ---
 
-이 크롬 확장 프로그램은 웹 페이지의 본문에서 이미지 URL을 감지하여 마우스 오버 시 해당 이미지의 미리보기를 표시합니다.
+This Chrome extension detects image URLs in web page content and displays a preview when you hover over them.
 
-## 기능
+## Features
 
-- 웹 페이지에서 이미지 URL 자동 감지 (.jpg, .png, .gif, .jpeg 확장자)
-- 이미지 URL에 마우스 오버 시 미리보기 표시
-- 동적으로 로드되는 콘텐츠에서도 작동
-- 이미지 크기 자동 조정
-- 확장 프로그램 활성화/비활성화 기능
-- 이미지 미리보기 시 원본 이미지의 실제 크기(너비 x 높이) 표시
-- 다국어 지원 (한국어, 영어, 일본어, 중국어)
+- Automatic detection of image URLs in web pages (.jpg, .png, .gif, .jpeg extensions)
+- Preview display when hovering over image URLs
+- Works with dynamically loaded content
+- Automatic image size adjustment
+- Extension enable/disable functionality
+- Display of original image dimensions (width x height) with preview
+- Multi-language support (Korean, English, Japanese, Chinese)
 
-## 지원 항목
+## Supported Features
 
-이 확장 프로그램은 다음과 같은 다양한 형태의 이미지 URL을 지원합니다:
+This extension supports various types of image URLs:
 
-1. **간단한 이미지 URL**: 기본적인 이미지 URL을 지원합니다 (예: https://example.com/image.jpg)
-2. **다양한 이미지 형식**: PNG, GIF, JPEG 등 다양한 이미지 형식을 지원합니다
-3. **문장 내 이미지 URL**: 텍스트 중간에 삽입된 이미지 URL도 감지하여 미리보기를 제공합니다
-4. **쿼리 파라미터가 있는 URL**: 쿼리 문자열이 포함된 이미지 URL도 지원합니다 (예: image.jpg?text=HelloWorld&font=roboto)
-5. **컬러 지정 이미지**: 배경색과 텍스트 색상이 지정된 이미지 URL도 지원합니다
-6. **Picsum 랜덤 이미지**: picsum.photos와 같은 랜덤 이미지 서비스 URL도 지원합니다
-7. **동적으로 추가된 콘텐츠**: 페이지 로드 후 자바스크립트로 동적 추가된 이미지 URL도 감지하여 미리보기를 제공합니다
+1. **Simple Image URLs**: Basic image URLs are supported (e.g., https://example.com/image.jpg)
+2. **Various Image Formats**: Supports different image formats including PNG, GIF, and JPEG
+3. **Image URLs Within Text**: Detects and provides previews for image URLs embedded within text
+4. **URLs With Query Parameters**: Supports image URLs that include query strings (e.g., image.jpg?text=HelloWorld&font=roboto)
+5. **Color-Specified Images**: Supports image URLs with specified background and text colors
+6. **Picsum Random Images**: Supports random image service URLs like picsum.photos
+7. **Dynamically Added Content**: Detects and provides previews for image URLs added dynamically via JavaScript after the page has loaded
 
-## 설치 방법
+## Installation
 
-1. 이 저장소를 다운로드하거나 클론합니다.
-2. 크롬 브라우저에서 `chrome://extensions/`로 이동합니다.
-3. 개발자 모드를 활성화합니다 (오른쪽 상단).
-4. "압축해제된 확장 프로그램을 로드합니다" 버튼을 클릭합니다.
-5. 다운로드한 폴더를 선택합니다.
+1. Download or clone this repository
+2. Go to `chrome://extensions/` in your Chrome browser
+3. Enable Developer Mode (top right)
+4. Click "Load unpacked extension"
+5. Select the downloaded folder
 
-## 사용 방법
+## How to Use
 
-- 확장 프로그램을 설치한 후 이미지 URL이 포함된 웹 페이지를 방문하면, 해당 URL에 마우스를 올리기만 하면 이미지 미리보기가 표시됩니다.
-- 미리보기 이미지 하단에 원본 이미지의 실제 크기 정보(픽셀 단위)가 표시됩니다.
-- 확장 프로그램 아이콘을 클릭하면 팝업이 표시되어 확장 프로그램을 활성화하거나 비활성화할 수 있습니다.
-- 비활성화 상태에서는 이미지 URL 감지 및 미리보기 기능이 작동하지 않습니다. 
+- After installing the extension, simply hover over an image URL on any webpage to see a preview of the image
+- The actual dimensions of the original image (in pixels) are displayed at the bottom of the preview
+- Click the extension icon to open a popup that allows you to enable or disable the extension
+- When disabled, the image URL detection and preview functionality will not work 

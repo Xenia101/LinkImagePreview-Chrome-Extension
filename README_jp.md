@@ -1,8 +1,8 @@
 <img src="./images/Image-Link-Preview-banner.png">
 
 <div align="center" style="margin-bottom:12px">
-  <a href="README.md">한국어</a> | 
-  <a href="README_en.md">English</a> | 
+  <a href="README.md">English</a> | 
+  <a href="README_kr.md">한국어</a> | 
   <a href="README_jp.md">日本語</a> | 
   <a href="README_ch.md">中文</a>
 </div>
