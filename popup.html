@@ -28,6 +28,31 @@
     <button id="langJa" class="language-btn" data-i18n="languageJa">日本語</button>
     <button id="langZh_CN" class="language-btn" data-i18n="languageZh_CN">中文</button>
   </div>
+
+  <div class="max-urls-section">
+    <h3 data-i18n="maxUrlsTitle">최대 URL 개수</h3>
+    <div class="url-input-container">
+      <input type="number" id="maxUrlsInput" min="10" max="500" step="1" value="50">
+    </div>
+    <div class="help-text" data-i18n="maxUrlsHelp">
+      페이지에서 처리할 이미지 URL의 최대 개수를 설정합니다.
+      값이 낮을수록 성능이 향상되지만 표시되는 이미지 URL이 제한됩니다.
+    </div>
+  </div>
+  
+  <div class="excluded-sites-section">
+    <h3 data-i18n="excludedSitesTitle">제외할 사이트</h3>
+    <form id="excludeSiteForm">
+      <input type="text" id="excludeSiteInput" placeholder="example.com 또는 *.example.com" data-i18n-placeholder="enterDomain">
+      <button type="submit" data-i18n="addButton">추가</button>
+    </form>
+    <ul id="excludedSitesList" class="excluded-sites-list">
+    </ul>
+    <div class="help-text" data-i18n="excludedSitesHelp">
+      특정 사이트에서 확장 프로그램이 작동하지 않게 하려면 도메인을 추가하세요.
+      와일드카드 패턴(*.example.com)도 지원합니다.
+    </div>
+  </div>
   
   <div class="lip-footer" data-i18n="appDesc"></div>
 

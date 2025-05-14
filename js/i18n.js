@@ -15,6 +15,13 @@ const messages = {
     languageZh_CN: '中文',
     loading: '로딩 중...',
     loadError: '이미지를 불러올 수 없습니다',
+    excludedSitesTitle: '제외할 사이트',
+    enterDomain: 'example.com 또는 *.example.com',
+    addButton: '추가',
+    excludedSitesHelp: '특정 사이트에서 확장 프로그램이 작동하지 않게 하려면 도메인을 추가하세요. 와일드카드 패턴(*.example.com)도 지원합니다.',
+    noExcludedSites: '제외된 사이트가 없습니다',
+    maxUrlsTitle: '최대 URL 개수',
+    maxUrlsHelp: '페이지에서 처리할 이미지 URL의 최대 개수를 설정합니다. 값이 낮을수록 성능이 향상되지만 표시되는 이미지 URL이 제한됩니다.'
   },
   en: {
     appName: 'Image Link Preview',
@@ -32,6 +39,13 @@ const messages = {
     languageZh_CN: 'Chinese',
     loading: 'Loading...',
     loadError: 'Unable to load image',
+    excludedSitesTitle: 'Excluded Sites',
+    enterDomain: 'example.com or *.example.com',
+    addButton: 'Add',
+    excludedSitesHelp: 'Add domains where the extension should not run. Wildcard patterns (*.example.com) are also supported.',
+    noExcludedSites: 'No excluded sites',
+    maxUrlsTitle: 'Maximum URLs',
+    maxUrlsHelp: 'Set the maximum number of image URLs to process on a page. Lower values improve performance but limit displayed image URLs.'
   },
   ja: {
     appName: 'イメージリンクプレビュー',
@@ -49,6 +63,13 @@ const messages = {
     languageZh_CN: '中国語',
     loading: '読み込み中...',
     loadError: '画像を読み込めません',
+    excludedSitesTitle: '除外サイト',
+    enterDomain: 'example.com または *.example.com',
+    addButton: '追加',
+    excludedSitesHelp: '拡張機能を実行しないドメインを追加します。ワイルドカードパターン(*.example.com)もサポートしています。',
+    noExcludedSites: '除外サイトはありません',
+    maxUrlsTitle: '最大URL数',
+    maxUrlsHelp: 'ページで処理する画像URLの最大数を設定します。値が低いほどパフォーマンスが向上しますが、表示される画像URLが制限されます。'
   },
   zh_CN: {
     appName: '图像链接预览',
@@ -66,6 +87,13 @@ const messages = {
     languageZh_CN: '中文',
     loading: '加载中...',
     loadError: '无法加载图像',
+    excludedSitesTitle: '排除网站',
+    enterDomain: 'example.com 或 *.example.com',
+    addButton: '添加',
+    excludedSitesHelp: '添加不应运行扩展程序的域名。也支持通配符模式(*.example.com)。',
+    noExcludedSites: '没有排除的网站',
+    maxUrlsTitle: '最大URL数量',
+    maxUrlsHelp: '设置页面上处理的图像URL的最大数量。较低的值可提高性能，但会限制显示的图像URL。'
   },
 };
 
@@ -97,6 +125,17 @@ window.applyI18nMessages = function (language) {
       console.warn('번역을 찾을 수 없음:', messageKey);
     }
   });
+  
+  // 플레이스홀더 번역 추가
+  const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+  placeholderElements.forEach(function(element) {
+    const placeholderKey = element.getAttribute('data-i18n-placeholder');
+    const translatedPlaceholder = window.getLocalizedMessage(placeholderKey, language);
+    
+    if (translatedPlaceholder) {
+      element.placeholder = translatedPlaceholder;
+    }
+  });
 
   document.documentElement.lang = language;
 
@@ -121,4 +160,4 @@ document.addEventListener('DOMContentLoaded', function () {
       statusText.style.color = isEnabled ? '#4CAF50' : '#F44336';
     }
   });
-});
+}); 

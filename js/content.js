@@ -1,4 +1,6 @@
 let isExtensionEnabled = true;
+let excludedSites = [];
+let maxUrls = 50;
 const DEFAULT_MESSAGES = {
   ko: {
     loading: '로딩 중...',
@@ -27,6 +29,17 @@ function isExtensionContextValid() {
   return typeof chrome !== 'undefined' && chrome.runtime && !chrome.runtime.lastError;
 }
 
+function isExcludedSite() {
+  const currentHost = window.location.hostname;
+  return excludedSites.some(site => {
+    if (site.startsWith('*.')) {
+      const domain = site.substring(2);
+      return currentHost.endsWith(domain);
+    }
+    return currentHost === site;
+  });
+}
+
 function initializeExtension() {
   try {
     if (!isExtensionContextValid()) {
@@ -34,7 +47,7 @@ function initializeExtension() {
       return;
     }
 
-    chrome.storage.sync.get(['enabled', 'language'], (data) => {
+    chrome.storage.sync.get(['enabled', 'language', 'excludedSites', 'maxUrls'], (data) => {
       if (chrome.runtime && chrome.runtime.lastError) {
         console.error('Extension error:', chrome.runtime.lastError);
         return;
@@ -42,6 +55,13 @@ function initializeExtension() {
 
       isExtensionEnabled = data.enabled !== undefined ? data.enabled : true;
       currentLanguage = data.language || 'ko';
+      excludedSites = data.excludedSites || [];
+      maxUrls = data.maxUrls || 50;
+
+      if (isExcludedSite()) {
+        console.log('현재 사이트는 제외 목록에 있어 확장 프로그램이 비활성화되었습니다:', window.location.hostname);
+        return;
+      }
 
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
@@ -87,11 +107,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         removeAllPreviews();
       }
 
-      if (isExtensionEnabled) {
+      if (isExtensionEnabled && !isExcludedSite()) {
         findAndProcessUrls();
       }
     } else if (message.action === 'updateLanguage') {
       currentLanguage = message.language || 'ko';
+    } else if (message.action === 'updateExcludedSites') {
+      excludedSites = message.excludedSites || [];
+      
+      if (isExcludedSite()) {
+        removeAllPreviews();
+      } else if (isExtensionEnabled) {
+        findAndProcessUrls();
+      }
+    } else if (message.action === 'updateMaxUrls') {
+      maxUrls = message.maxUrls || 50;
+      
+      if (isExtensionEnabled && !isExcludedSite()) {
+        findAndProcessUrls();
+      }
     }
 
     sendResponse({ received: true });
@@ -128,7 +162,7 @@ function removeAllPreviews() {
 function setupMutationObserver() {
   try {
     const observer = new MutationObserver((mutations) => {
-      if (isExtensionEnabled) {
+      if (isExtensionEnabled && !isExcludedSite()) {
         mutations.forEach((mutation) => {
           if (mutation.addedNodes.length) {
             findAndProcessUrls();
@@ -147,29 +181,32 @@ function setupMutationObserver() {
 }
 
 function findAndProcessUrls() {
-  if (!isExtensionEnabled) return;
+  if (!isExtensionEnabled || isExcludedSite()) return;
 
   try {
     const textNodes = [];
     const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    
+    let urlCount = 0;
 
     let node;
     while ((node = walk.nextNode())) {
       textNodes.push(node);
     }
 
-    textNodes.forEach((textNode) => {
+    for (let i = 0; i < textNodes.length && urlCount < maxUrls; i++) {
+      const textNode = textNodes[i];
       try {
-        if (!textNode || !textNode.parentNode) return;
+        if (!textNode || !textNode.parentNode) continue;
         
         const parent = textNode.parentNode;
 
         if (parent.classList && parent.classList.contains('url-processed')) {
-          return;
+          continue;
         }
 
         const text = textNode.nodeValue;
-        if (!text) return;
+        if (!text) continue;
 
         const urlRegex =
           /(https?:\/\/(?:(?:[^\s]+\.(jpg|png|gif|jpeg|webp)(?:\?[^\s]*)?)|(?:placehold\.co\/[^\s]+)|(?:placekitten\.com\/[^\s]+)|(?:picsum\.photos\/[^\s]+)|(?:loremflickr\.com\/[^\s]+)))/gi;
@@ -177,8 +214,11 @@ function findAndProcessUrls() {
         let match;
         let lastIndex = 0;
         let fragment = document.createDocumentFragment();
+        let urlsInThisNode = 0;
 
         while ((match = urlRegex.exec(text)) !== null) {
+          if (urlCount >= maxUrls) break;
+          
           if (match.index > lastIndex) {
             fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
           }
@@ -202,196 +242,113 @@ function findAndProcessUrls() {
           }
 
           lastIndex = match.index + match[1].length;
+          urlCount++;
+          urlsInThisNode++;
         }
 
         if (lastIndex < text.length) {
           fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
         }
 
-        if (lastIndex > 0 && parent.parentNode) {
+        if (urlsInThisNode > 0 && parent.parentNode) {
           parent.replaceChild(fragment, textNode);
         }
       } catch (nodeError) {
         console.error('텍스트 노드 처리 오류:', nodeError);
       }
-    });
+    }
   } catch (error) {
     console.error('URL 처리 오류:', error);
   }
 }
 
-function getContentMessage(key) {
-  return new Promise((resolve) => {
-    try {
-      if (!isExtensionContextValid()) {
-        const defaultLang = currentLanguage || 'ko';
-        resolve(DEFAULT_MESSAGES[defaultLang]?.[key] || DEFAULT_MESSAGES.ko[key] || key);
-        return;
-      }
-
-      chrome.storage.sync.get('language', function (data) {
-        try {
-          if (chrome.runtime && chrome.runtime.lastError) {
-            console.warn('Storage get error:', chrome.runtime.lastError);
-            resolve(DEFAULT_MESSAGES[currentLanguage]?.[key] || DEFAULT_MESSAGES.ko[key] || key);
-            return;
-          }
-
-          const lang = data.language || currentLanguage || 'ko';
-          
-          if (DEFAULT_MESSAGES[lang] && DEFAULT_MESSAGES[lang][key]) {
-            resolve(DEFAULT_MESSAGES[lang][key]);
-          } else if (DEFAULT_MESSAGES.ko[key]) {
-            resolve(DEFAULT_MESSAGES.ko[key]);
-          } else {
-            resolve(key);
-          }
-        } catch (innerError) {
-          console.error('Message retrieval inner error:', innerError);
-          resolve(DEFAULT_MESSAGES.ko[key] || key);
-        }
-      });
-    } catch (error) {
-      console.error('Message retrieval error:', error);
-      resolve(DEFAULT_MESSAGES.ko[key] || key);
-    }
-  });
-}
-
-async function showPreview(event) {
-  if (!isExtensionEnabled) return;
+function showPreview(event) {
+  if (!isExtensionEnabled || isExcludedSite()) return;
 
   try {
-    const url = event.target.dataset.imageUrl;
-    if (!url) return;
+    const target = event.currentTarget;
+    const imageUrl = target.dataset.imageUrl;
 
-    let preview = document.getElementById('lip-image-preview-popup');
-    if (!preview) {
-      preview = document.createElement('div');
-      preview.id = 'lip-image-preview-popup';
-      document.body.appendChild(preview);
-    }
+    if (!imageUrl) return;
 
-    let loadingMessage;
-    try {
-      loadingMessage = await getContentMessage('loading');
-    } catch (error) {
-      loadingMessage = '로딩 중...';
-      console.error('Failed to get loading message:', error);
-    }
+    hidePreview();
+
+    const previewEl = document.createElement('div');
+    previewEl.id = 'lip-image-preview-popup';
+    document.body.appendChild(previewEl);
+
+    const loadingMessage = getLocalizedMessage('loading');
+    previewEl.innerHTML = `<div class="loading">${loadingMessage}</div>`;
+
+    const targetRect = target.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
     
-    preview.innerHTML = `<div class="loading">${loadingMessage}</div>`;
-    positionPreview(event, preview);
-
+    previewEl.style.maxWidth = '500px';
+    
+    previewEl.style.position = 'absolute';
+    previewEl.style.left = targetRect.left + 'px';
+    previewEl.style.top = (targetRect.top + scrollY - 5) + 'px';
+    previewEl.style.transform = 'translateY(-100%)';
+    
     const img = new Image();
-    
-    img.onload = function () {
-      try {
-        if (!document.body.contains(preview)) return;
-        
-        const originalWidth = img.naturalWidth;
-        const originalHeight = img.naturalHeight;
-
-        preview.innerHTML = '';
-        preview.appendChild(img);
-
-        const maxWidth = Math.min(500, window.innerWidth / 2);
-        const maxHeight = Math.min(400, window.innerHeight / 2);
-
-        if (img.width > maxWidth || img.height > maxHeight) {
-          const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
-          img.width = img.width * ratio;
-          img.height = img.height * ratio;
-        }
-
-        (async function addSizeInfo() {
-          try {
-            if (!document.body.contains(preview)) return;
-            if (preview.querySelector('.lip-image-size-info')) return;
-            
-            const sizeTemplate = await getContentMessage('imageSize');
-            const sizeText = sizeTemplate.replace('%w', originalWidth).replace('%h', originalHeight);
-
-            const sizeInfo = document.createElement('div');
-            sizeInfo.className = 'lip-image-size-info';
-            sizeInfo.textContent = sizeText;
-            sizeInfo.style.textAlign = 'center';
-            sizeInfo.style.padding = '5px';
-            sizeInfo.style.backgroundColor = 'rgb(43, 205, 211)';
-            sizeInfo.style.color = 'white';
-            sizeInfo.style.fontSize = '12px';
-
-            if (document.body.contains(preview)) {
-              preview.appendChild(sizeInfo);
-              positionPreview(event, preview);
-            }
-          } catch (error) {
-            console.error('이미지 크기 정보 표시 오류:', error);
-          }
-        })();
-      } catch (error) {
-        console.error('이미지 로드 완료 처리 오류:', error);
+    img.onload = function() {
+      if (!document.getElementById('lip-image-preview-popup')) return;
+      
+      const sizeMessage = getLocalizedMessage('imageSize')
+        .replace('%w', img.naturalWidth)
+        .replace('%h', img.naturalHeight);
+      
+      previewEl.innerHTML = `
+        <img src="${imageUrl}" alt="이미지 미리보기">
+        <div class="image-size">${sizeMessage}</div>
+      `;
+      
+      const previewRect = previewEl.getBoundingClientRect();
+      
+      if (previewRect.right > window.innerWidth) {
+        const rightOverflow = previewRect.right - window.innerWidth;
+        previewEl.style.left = Math.max(0, (targetRect.left - rightOverflow)) + 'px';
+      }
+      
+      if (previewRect.top < 0) {
+        previewEl.style.top = (targetRect.bottom + scrollY + 5) + 'px';
+        previewEl.style.transform = 'none';
       }
     };
 
-    img.onerror = async function () {
-      try {
-        if (!document.body.contains(preview)) return;
-        
-        let errorMessage;
-        try {
-          errorMessage = await getContentMessage('loadError');
-        } catch (err) {
-          errorMessage = '이미지를 불러올 수 없습니다';
-        }
-        
-        preview.innerHTML = `<div class="error">${errorMessage}</div>`;
-      } catch (error) {
-        console.error('이미지 로드 오류 처리 실패:', error);
-      }
+    img.onerror = function() {
+      if (!document.getElementById('lip-image-preview-popup')) return;
+      
+      const errorMessage = getLocalizedMessage('loadError');
+      previewEl.innerHTML = `<div class="error">${errorMessage}</div>`;
     };
 
-    img.src = url;
+    img.src = imageUrl;
   } catch (error) {
     console.error('미리보기 표시 오류:', error);
   }
 }
 
-function positionPreview(event, preview) {
-  try {
-    if (!event || !event.target || !preview || !document.body.contains(preview)) return;
-    
-    const rect = event.target.getBoundingClientRect();
-
-    let left = event.clientX;
-    let top = rect.bottom + window.scrollY;
-
-    const previewWidth = preview.offsetWidth;
-    const previewHeight = preview.offsetHeight;
-
-    if (left + previewWidth > window.innerWidth + window.scrollX) {
-      left = window.innerWidth + window.scrollX - previewWidth - 10;
-    }
-
-    if (top + previewHeight > window.innerHeight + window.scrollY) {
-      top = rect.top + window.scrollY - previewHeight - 10;
-    }
-
-    preview.style.left = left + 'px';
-    preview.style.top = top + 'px';
-  } catch (error) {
-    console.error('미리보기 위치 설정 오류:', error);
-  }
-}
-
 function hidePreview() {
   try {
-    const preview = document.getElementById('lip-image-preview-popup');
-    if (preview && document.body.contains(preview)) {
-      document.body.removeChild(preview);
+    const previewEl = document.getElementById('lip-image-preview-popup');
+    if (previewEl && document.body.contains(previewEl)) {
+      document.body.removeChild(previewEl);
     }
   } catch (error) {
-    console.error('미리보기 숨기기 오류:', error);
+    console.error('미리보기 숨김 오류:', error);
   }
 }
 
+function getLocalizedMessage(key) {
+  try {
+    if (DEFAULT_MESSAGES[currentLanguage] && DEFAULT_MESSAGES[currentLanguage][key]) {
+      return DEFAULT_MESSAGES[currentLanguage][key];
+    }
+    
+    return DEFAULT_MESSAGES.ko[key] || '';
+  } catch (error) {
+    console.error('메시지 가져오기 오류:', error);
+    return '';
+  }
+} 

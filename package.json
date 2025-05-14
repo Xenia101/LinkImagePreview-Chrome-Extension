@@ -1,6 +1,6 @@
 {
   "name": "linked-image-preview",
-  "version": "1.0.0",
+  "version": "1.2",
   "description": "Chrome extension for previewing image links",
   "devDependencies": {
     "eslint": "^8.42.0",
